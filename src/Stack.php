@@ -26,7 +26,7 @@ class Stack
             throw new StackOverflowException();
         }
 
-        $this->data[] = $value;
+        $this->data = [$value, ...$this->data];
     }
 
     public function pop(int $index = 1): Hex
@@ -50,7 +50,7 @@ class Stack
      */
     public function all(): array
     {
-        return $this->data;
+        return array_reverse($this->data);
     }
 
     public function swap(int $first, int $second): void
