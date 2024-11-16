@@ -42,7 +42,7 @@ class Hex
 
     public function get(): string
     {
-        return gmp_strval($this->value);
+        return gmp_strval($this->value, 16);
     }
 
     public function getHex(): string
