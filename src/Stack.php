@@ -4,14 +4,23 @@ declare(strict_types=1);
 namespace Zbkm\Evm;
 
 use Zbkm\Evm\Exceptions\StackOverflowException;
+use Zbkm\Evm\Utils\Hex;
 
 class Stack
 {
     const MAX_SIZE = 1024;
 
+    /**
+     * @var Hex[]
+     */
     protected array $data = [];
 
     public function push(string $value): void
+    {
+        $this->pushHex(Hex::from($value));
+    }
+
+    public function pushHex(Hex $value): void
     {
         if (count($this->data) == self::MAX_SIZE) {
             throw new StackOverflowException();
@@ -20,14 +29,14 @@ class Stack
         $this->data[] = $value;
     }
 
-    public function pop(int $index): void
+    public function pop(int $index = 1): Hex
     {
         $this->checkIndexAvailability($index);
 
-        array_splice($this->data, $index - 1, 1);
+        return array_splice($this->data, $index - 1, 1)[0];
     }
 
-    public function get(int $index): string
+    public function get(int $index): Hex
     {
         $this->checkIndexAvailability($index);
 
@@ -37,7 +46,7 @@ class Stack
     /**
      * Return all stack
      *
-     * @return string[]
+     * @return Hex[]
      */
     public function all(): array
     {

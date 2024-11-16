@@ -5,6 +5,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use Zbkm\Evm\Exceptions\StackOverflowException;
 use Zbkm\Evm\Stack;
 use PHPUnit\Framework\TestCase;
+use Zbkm\Evm\Utils\Hex;
 
 class StackTest extends TestCase
 {
@@ -14,7 +15,7 @@ class StackTest extends TestCase
         $stack->push("FF");
         $stack->push("00");
 
-        $this->assertSame(["FF", "00"], $stack->all());
+        $this->assertEquals([Hex::from("FF"), Hex::from("00")], $stack->all());
 
         for ($i = 0; 1024 - 2 > $i; $i++) {
             $stack->push("AA");
@@ -30,7 +31,7 @@ class StackTest extends TestCase
         $stack->push("12356");
         $stack->pop(1);
 
-        $this->assertSame([], $stack->all());
+        $this->assertEquals([], $stack->all());
 
         $this->expectException(StackOverflowException::class);
         $stack->pop(1);
@@ -131,6 +132,7 @@ class StackTest extends TestCase
         }
 
         $stack->swap(1, $element + 1);
-        $this->assertSame($expected, $stack->all());
+        $actual = array_map(function (Hex $element) { return $element->get(); }, $stack->all());
+        $this->assertSame($expected, $actual);
     }
 }
