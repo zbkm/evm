@@ -19,5 +19,7 @@
             "email": "zubokome@gmail.com"
         }
     ],
-    "require": {}
+  "require": {
+    "ext-gmp": "*"
+  }
 }
