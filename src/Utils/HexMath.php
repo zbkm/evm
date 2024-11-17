@@ -7,6 +7,13 @@ use GMP;
 
 class HexMath
 {
+    public static function exp(Hex $a, Hex $b): Hex
+    {
+        $result = gmp_pow($a->gmp(), gmp_intval($b->gmp()));
+        $result = gmp_mod($result, self::modulo());
+        return Hex::from(gmp_strval($result, 16));
+    }
+
     public static function sum(Hex $a, Hex $b): Hex
     {
         $result = gmp_add($a->gmp(), $b->gmp());

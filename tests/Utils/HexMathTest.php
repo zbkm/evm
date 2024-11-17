@@ -9,6 +9,19 @@ use PHPUnit\Framework\TestCase;
 
 class HexMathTest extends TestCase
 {
+    public function testExp(): void
+    {
+        $a = Hex::from("10");
+        $b = Hex::from("2");
+        $result = HexMath::exp($a, $b);
+        $this->assertEquals(Hex::from("100")->get(), $result->get());
+
+        $a = Hex::from("2");
+        $b = Hex::from("2");
+        $result = HexMath::exp($a, $b);
+        $this->assertEquals(Hex::from("4")->get(), $result->get());
+    }
+
     public function testSum(): void
     {
         $a = Hex::from("10");
