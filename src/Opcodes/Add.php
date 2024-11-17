@@ -7,6 +7,7 @@ use Zbkm\Evm\Utils\HexMath;
 
 class Add extends BaseOpcode
 {
+    protected const STATIC_GAS = 3;
 
     public function execute(): void
     {
@@ -14,11 +15,6 @@ class Add extends BaseOpcode
         $b = $this->context->stack->pop();
 
         $this->context->stack->pushHex(HexMath::sum($a, $b));
-    }
-
-    public function getSpentGas(): int
-    {
-        return 3;
     }
 
     static public function getOpcode(): string
