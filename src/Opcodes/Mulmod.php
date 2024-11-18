@@ -8,6 +8,7 @@ use Zbkm\Evm\Utils\HexMath;
 class Mulmod extends BaseOpcode
 {
     protected const STATIC_GAS = 8;
+    protected const OPCODE = "09";
 
     public function execute(): void
     {
@@ -18,10 +19,5 @@ class Mulmod extends BaseOpcode
         $a = $this->context->stack->pop();
         $b = $this->context->stack->pop();
         $this->context->stack->pushHex(HexMath::mod($a, $b));
-    }
-
-    static public function getOpcode(): string
-    {
-        return "09";
     }
 }

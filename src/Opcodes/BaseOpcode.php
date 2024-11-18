@@ -10,7 +10,7 @@ use Zbkm\Evm\Interfaces\IOpcode;
 abstract class BaseOpcode implements IOpcode
 {
     protected const STATIC_GAS = 0;
-
+    protected const OPCODE = "00";
     protected string $element = "";
 
     public function __construct(
@@ -26,6 +26,10 @@ abstract class BaseOpcode implements IOpcode
         }
 
         $this->element = $element;
+    }
+    static public function getOpcode(): string
+    {
+        return static::OPCODE;
     }
 
     public function getSpentGas(): int

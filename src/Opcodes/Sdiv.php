@@ -8,6 +8,7 @@ use Zbkm\Evm\Utils\HexMath;
 class Sdiv extends BaseOpcode
 {
     protected const STATIC_GAS = 5;
+    protected const OPCODE = "05";
 
     public function execute(): void
     {
@@ -15,10 +16,5 @@ class Sdiv extends BaseOpcode
         $b = $this->context->stack->pop();
 
         $this->context->stack->pushHex(HexMath::sdiv($a, $b));
-    }
-
-    static public function getOpcode(): string
-    {
-        return "05";
     }
 }

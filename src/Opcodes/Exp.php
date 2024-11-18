@@ -9,6 +9,7 @@ use Zbkm\Evm\Utils\HexMath;
 class Exp extends BaseOpcode
 {
     protected const STATIC_GAS = 10;
+    protected const OPCODE = "0A";
     protected Hex $exponent;
 
     public function execute(): void
@@ -20,11 +21,8 @@ class Exp extends BaseOpcode
 
     public function getSpentGas(): int
     {
-        return self::STATIC_GAS + (count(str_split($this->exponent->get(), 2)) * 50);
-    }
-
-    static public function getOpcode(): string
-    {
-        return "0A";
+        // dynamic_gas = 50 * exponent_byte_size
+        $dynamicGas = 50 * count(str_split($this->exponent->get(), 2));
+        return self::STATIC_GAS + $dynamicGas;
     }
 }

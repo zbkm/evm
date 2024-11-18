@@ -6,6 +6,7 @@ namespace Zbkm\Evm\Opcodes;
 class Stop extends BaseOpcode
 {
     protected const STATIC_GAS = 0;
+    protected const OPCODE = "00";
 
     public function execute(): void
     {
@@ -14,10 +15,5 @@ class Stop extends BaseOpcode
     public function isStop(): bool
     {
         return true;
-    }
-
-    static public function getOpcode(): string
-    {
-        return "00";
     }
 }

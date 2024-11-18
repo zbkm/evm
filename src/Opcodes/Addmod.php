@@ -8,6 +8,7 @@ use Zbkm\Evm\Utils\HexMath;
 class Addmod extends BaseOpcode
 {
     protected const STATIC_GAS = 8;
+    protected const OPCODE = "08";
 
     public function execute(): void
     {
@@ -18,10 +19,5 @@ class Addmod extends BaseOpcode
         $a = $this->context->stack->pop();
         $b = $this->context->stack->pop();
         $this->context->stack->pushHex(HexMath::mod($a, $b));
-    }
-
-    static public function getOpcode(): string
-    {
-        return "08";
     }
 }
