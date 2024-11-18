@@ -16,9 +16,10 @@ class Hex
     {
         $hexValue = gmp_init($value, 16);
 
-        if (gmp_cmp($hexValue, self::MAX_VALUE) > 0 || gmp_cmp(0, $hexValue) > 0) {
-            throw new InvalidArgumentException("value > max uint256 or 0 > value");
-        }
+//        TODO The check does not work if it is signed number
+//        if (gmp_cmp($hexValue, self::MAX_VALUE) > 0 || gmp_cmp(0, $hexValue) > 0) {
+//            throw new InvalidArgumentException("value > max uint256 or 0 > value");
+//        }
 
         $this->value = $hexValue;
     }
@@ -43,6 +44,11 @@ class Hex
     public function get(): string
     {
         return gmp_strval($this->value, 16);
+    }
+
+    public function getInt(): int
+    {
+        return gmp_intval($this->value);
     }
 
     public function getHex(): string
