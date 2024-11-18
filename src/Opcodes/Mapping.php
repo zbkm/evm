@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Zbkm\Evm\Opcodes;
 
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
 use Zbkm\Evm\Exceptions\InvalidOpcode;
 use Zbkm\Evm\Interfaces\IOpcode;
 
@@ -12,7 +10,7 @@ class Mapping
 {
     /**
      * @param string $opcode opcode
-     * @return IOpcode
+     * @return class-string<IOpcode>
      */
     public static function getExecutor(string $opcode): string
     {
@@ -30,27 +28,21 @@ class Mapping
      */
     public static function getOpcodeMapping(): array
     {
-        static $mapping = [];
-        if (!empty($mapping)) {
-            return $mapping;
-        }
+        return [
+            "00" => Stop::class,
+            "01" => Add::class,
+            "02" => Mul::class,
+            "03" => Sub::class,
+            "04" => Div::class,
+            "05" => Sdiv::class,
+            "06" => Mod::class,
+            "07" => Smod::class,
+            "08" => Addmod::class,
+            "09" => Mulmod::class,
+            "0A" => Exp::class,
 
-        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(__DIR__));
-        foreach ($iterator as $file) {
-            if ($file->isFile() && $file->getExtension() === 'php'
-                && !in_array($file->getFilename(), ["BaseOpcode.php", "Mapping.php"])) {
-                $class = "Zbkm\\Evm\\Opcodes" . str_replace(
-                        ['/', '.php'],
-                        ['\\', ''],
-                        substr($file->getPathname(), strlen(__DIR__))
-                    );
-
-                $opcode = $class::getOpcode();
-                $mapping[$opcode] = $class;
-            }
-        }
-
-        return $mapping;
+            "60" => Push1::class
+        ];
     }
 
 }

@@ -3,38 +3,33 @@ declare(strict_types=1);
 
 namespace Opcodes;
 
-use Zbkm\Evm\Opcodes\Add;
-use Zbkm\Evm\Opcodes\Addmod;
-use Zbkm\Evm\Opcodes\Div;
-use Zbkm\Evm\Opcodes\Exp;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 use Zbkm\Evm\Opcodes\Mapping;
 use PHPUnit\Framework\TestCase;
-use Zbkm\Evm\Opcodes\Mod;
-use Zbkm\Evm\Opcodes\Mul;
-use Zbkm\Evm\Opcodes\Mulmod;
-use Zbkm\Evm\Opcodes\Push1;
-use Zbkm\Evm\Opcodes\Sdiv;
-use Zbkm\Evm\Opcodes\Smod;
-use Zbkm\Evm\Opcodes\Stop;
-use Zbkm\Evm\Opcodes\Sub;
 
 class MappingTest extends TestCase
 {
     public function testOpcodeMapper()
     {
-        $this->assertEquals([
-            "00" => Stop::class,
-            "01" => Add::class,
-            "60" => Push1::class,
-            "08" => Addmod::class,
-            "04" => Div::class,
-            "0A" => Exp::class,
-            "06" => Mod::class,
-            "02" => Mul::class,
-            "09" => Mulmod::class,
-            "05" => Sdiv::class,
-            "07" => Smod::class,
-            "03" => Sub::class
-        ], Mapping::getOpcodeMapping());
+        $mapping = [];
+
+        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator("./src/opcodes/"));
+        foreach ($iterator as $file) {
+            if ($file->isFile() && $file->getExtension() === 'php'
+                && !in_array($file->getFilename(), ["BaseOpcode.php", "Mapping.php"])) {
+                $class = "Zbkm\\Evm\\Opcodes\\" . str_replace(
+                        ['/', '.php'],
+                        ['\\', ''],
+                        substr($file->getPathname(), strlen("./src/opcodes/"))
+                    );
+
+                $opcode = $class::getOpcode();
+                $mapping[$opcode] = $class;
+            }
+        }
+
+        $this->assertEquals($mapping, Mapping::getOpcodeMapping());
+
     }
 }
