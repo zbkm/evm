@@ -40,6 +40,14 @@ class Mapping
             "08" => Addmod::class,
             "09" => Mulmod::class,
             "0A" => Exp::class,
+            "0B" => SignExtend::class,
+            "10" => Lt::class,
+            "11" => Gt::class,
+            "12" => Slt::class,
+            "13" => Sgt::class,
+            "14" => Eq::class,
+            "15" => IsZero::class,
+            // "16" => And::class,
 
             "60" => Push1::class
         ];
