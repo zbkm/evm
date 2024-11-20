@@ -14,10 +14,8 @@ class Mulmod extends BaseOpcode
     {
         $a = $this->context->stack->pop();
         $b = $this->context->stack->pop();
-        $this->context->stack->pushHex(HexMath::mul($a, $b));
+        $mod = $this->context->stack->pop();
 
-        $a = $this->context->stack->pop();
-        $b = $this->context->stack->pop();
-        $this->context->stack->pushHex(HexMath::mod($a, $b));
+        $this->context->stack->pushHex(HexMath::mulmod($a, $b, $mod));
     }
 }

@@ -18,7 +18,7 @@ class Slt extends BaseOpcode
         $b = $this->context->stack->pop();
         $signA = HexMath::toSigned($a);
         $signB = HexMath::toSigned($b);
-        $result = HexMath::cmp($signA, $signB) > 0 ? "0" : "1";
+        $result = HexMath::cmp($signB, $signA) > 0 ? "1" : "0";
 
         $this->context->stack->pushHex(Hex::from($result));
     }

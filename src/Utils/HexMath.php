@@ -90,7 +90,7 @@ class HexMath
         }
 
         $shifted = gmp_div_q($value->gmp(), gmp_pow(2, (31 - $index) * 8));
-        $byte = gmp_and($shifted, 0xFF);
+        $byte = gmp_and($shifted, "0xFF");
 
         return Hex::from($byte);
     }
@@ -118,7 +118,7 @@ class HexMath
      */
     public static function xor(Hex $a, Hex $b): Hex
     {
-        return Hex::from(gmp_xor($a, $b));
+        return Hex::from(gmp_xor($a->gmp(), $b->gmp()));
     }
 
     /**
@@ -130,7 +130,7 @@ class HexMath
      */
     public static function or(Hex $a, Hex $b): Hex
     {
-        return Hex::from(gmp_or($a, $b));
+        return Hex::from(gmp_or($a->gmp(), $b->gmp()));
     }
 
     /**
@@ -142,7 +142,7 @@ class HexMath
      */
     public static function and(Hex $a, Hex $b): Hex
     {
-        return Hex::from(gmp_and($a, $b));
+        return Hex::from(gmp_and($a->gmp(), $b->gmp()));
     }
 
     /**
@@ -180,8 +180,7 @@ class HexMath
      */
     public static function exp(Hex $a, Hex $b): Hex
     {
-        $result = gmp_pow($a->gmp(), gmp_intval($b->gmp()));
-        $result = gmp_mod($result, self::modulo());
+        $result = gmp_powm($a->gmp(), $b->gmp(), self::modulo());
         return Hex::from($result);
     }
 
@@ -210,6 +209,48 @@ class HexMath
     {
         $result = gmp_mul($a->gmp(), $b->gmp());
         $result = gmp_mod($result, self::modulo());
+
+        return Hex::from($result);
+    }
+
+    /**
+     * Modulo multiplication operation
+     * All intermediate calculations of this operation are not subject to the 2^256 modulo
+     *
+     * @param Hex $a first value to multiply
+     * @param Hex $b second value to multiply
+     * @param Hex $n integer denominator
+     * @return Hex
+     */
+    public static function mulmod(Hex $a, Hex $b, Hex $n): Hex
+    {
+        if ($n->get() === "0") {
+            return Hex::from(0);
+        }
+
+        $result = gmp_mul($a->gmp(), $b->gmp()); // mul
+        $result = gmp_mod($result, $n->gmp()); // mod
+
+        return Hex::from($result);
+    }
+
+    /**
+     * Modulo addition operation
+     * All intermediate calculations of this operation are not subject to the 2^256 modulo.
+     *
+     * @param Hex $a first value to add
+     * @param Hex $b second value to add
+     * @param Hex $n integer denominator
+     * @return Hex
+     */
+    public static function addmod(Hex $a, Hex $b, Hex $n): Hex
+    {
+        if ($n->get() === "0") {
+            return Hex::from(0);
+        }
+
+        $result = gmp_add($a->gmp(), $b->gmp()); // add
+        $result = gmp_mod($result, $n->gmp()); // mod
 
         return Hex::from($result);
     }

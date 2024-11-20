@@ -14,10 +14,7 @@ class Addmod extends BaseOpcode
     {
         $a = $this->context->stack->pop();
         $b = $this->context->stack->pop();
-        $this->context->stack->pushHex(HexMath::sum($a, $b));
-
-        $a = $this->context->stack->pop();
-        $b = $this->context->stack->pop();
-        $this->context->stack->pushHex(HexMath::mod($a, $b));
+        $n = $this->context->stack->pop();
+        $this->context->stack->pushHex(HexMath::addmod($a, $b, $n));
     }
 }

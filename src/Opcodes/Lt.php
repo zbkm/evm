@@ -15,7 +15,7 @@ class Lt extends BaseOpcode
     {
         $a = $this->context->stack->pop();
         $b = $this->context->stack->pop();
-        $result = HexMath::cmp($a, $b) > 0 ? "0" : "1";
+        $result = HexMath::cmp($b, $a) > 0 ? "1" : "0";
 
         $this->context->stack->pushHex(Hex::from($result));
     }
