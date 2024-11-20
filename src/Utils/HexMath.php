@@ -242,7 +242,7 @@ class HexMath
             return Hex::from(0);
         }
 
-        $sum = gmp_div($a->get(), $b->get());
+        $sum = gmp_div($a->gmp(), $b->gmp());
         return Hex::from($sum);
     }
 
