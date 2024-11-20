@@ -3,23 +3,20 @@ declare(strict_types=1);
 
 namespace Opcodes;
 
-use Zbkm\Evm\Context;
-use PHPUnit\Framework\TestCase;
 use Zbkm\Evm\Opcodes\Stop;
-use Zbkm\Evm\Storage;
 
-class StopTest extends TestCase
+class StopTest extends BaseOpcodeTestCase
 {
-    public function testStop(): void
+    protected string $testedClass = Stop::class;
+    protected string $opcode = "00";
+    protected int $staticGas = 0;
+    protected bool $isStop = true;
+
+    public static function dataProvider(): array
     {
-        $context = new Context(new Storage());
-
-        $opcode = new Stop($context);
-        $opcode->execute();
-
-        $this->assertEquals("00", Stop::getOpcode());
-        $this->assertEquals(0, $opcode->getSpentGas());
-        $this->assertEquals(0, $opcode->getBytesSkip());
-        $this->assertTrue($opcode->isStop());
+        // no crash test, where empty provider
+        return [
+            [["0"], "0"]
+        ];
     }
 }

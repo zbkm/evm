@@ -3,27 +3,19 @@ declare(strict_types=1);
 
 namespace Opcodes;
 
-use Zbkm\Evm\Context;
 use Zbkm\Evm\Opcodes\Add;
-use PHPUnit\Framework\TestCase;
-use Zbkm\Evm\Storage;
-use Zbkm\Evm\Utils\Hex;
 
-class AddTest extends TestCase
+class AddTest extends BaseOpcodeTestCase
 {
-    public function testAdd(): void
+    protected string $testedClass = Add::class;
+    protected string $opcode = "01";
+    protected int $staticGas = 3;
+
+    public static function dataProvider(): array
     {
-        $context = new Context(new Storage());
-        $context->stack->push("10");
-        $context->stack->push("10");
-
-        $opcode = new Add($context);
-        $opcode->execute();
-
-        $this->assertEquals("01", Add::getOpcode());
-        $this->assertEquals(3, $opcode->getSpentGas());
-        $this->assertEquals(0, $opcode->getBytesSkip());
-        $this->assertFalse($opcode->isStop());
-        $this->assertEquals([Hex::from("20")], $context->stack->all());
+        return [
+            [["10", "10"], "20"],
+            [["1", "0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"], "0"]
+        ];
     }
 }

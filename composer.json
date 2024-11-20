@@ -13,6 +13,9 @@
             "Zbkm\\Evm\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": { "": "tests/" }
+    },
     "authors": [
         {
             "name": "zbkm",
