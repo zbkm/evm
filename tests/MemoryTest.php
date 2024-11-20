@@ -19,6 +19,14 @@ class MemoryTest extends TestCase
         $this->assertEquals("00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000148800000000000000000000000000001488", $memory->data());
     }
 
+    public function testGet(): void
+    {
+        $memory = new Memory();
+        $memory->set32(Hex::from("0x20"), Hex::from("1488"));
+        $this->assertEquals("0000000000000000000000000000000000000000000000000000000000001488", $memory->get(Hex::from("0x20"), 32));
+        $this->assertEquals("1488", $memory->get(Hex::from("0x3E"), 2));
+    }
+
     public function testSet(): void
     {
         $memory = new Memory();

@@ -46,6 +46,25 @@ class Memory
     }
 
     /**
+     * Load bytes from memory
+     *
+     * @param Hex $offset offset in the memory in bytes
+     * @param int $size data size
+     * @return string byte string
+     */
+    public function get(Hex $offset, int $size): string
+    {
+        $result = "";
+
+        for ($i = 0; $i < $size; $i++) {
+            $elem = HexMath::sum($offset, Hex::from($i))->get();
+            $result .= $this->memory[$elem] ?? "";
+        }
+
+        return $result;
+    }
+
+    /**
      * Set element a given length in a given position
      *
      * @param Hex $offset element position
@@ -123,16 +142,7 @@ class Memory
      */
     public function data(): string
     {
-        $result = "";
-
-        $index = Hex::from(0);
-        while (true) {
-            if (HexMath::cmp($index, $this->lastIndex) == 0) {
-                return $result;
-            }
-            $result .= $this->memory[$index->get()];
-            $index = HexMath::sum($index, Hex::from("1"));
-        }
+        return self::get(Hex::from(0), count($this->memory) - 1);
     }
 
     /**
