@@ -58,7 +58,7 @@ class Memory
 
         for ($i = 0; $i < $size; $i++) {
             $elem = HexMath::sum($offset, Hex::from($i))->get();
-            $result .= $this->memory[$elem] ?? "";
+            $result .= $this->memory[$elem] ?? "00";
         }
 
         return $result;

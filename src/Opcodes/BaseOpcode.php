@@ -6,17 +6,20 @@ namespace Zbkm\Evm\Opcodes;
 use InvalidArgumentException;
 use Zbkm\Evm\Context;
 use Zbkm\Evm\Interfaces\IOpcode;
+use Zbkm\Evm\Utils\Hex;
 
 abstract class BaseOpcode implements IOpcode
 {
     protected const STATIC_GAS = 0;
     protected const OPCODE = "00";
     protected string $element = "";
+    protected Hex $initialMemorySize;
 
     public function __construct(
         protected Context $context
     )
     {
+        $this->initialMemorySize = $this->context->memory->size();
     }
 
     public function setElement(string $element): void
