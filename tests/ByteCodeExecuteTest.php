@@ -15,11 +15,18 @@ class ByteCodeExecuteTest extends TestCase
         $context = new Context(new State(
             from: "0xbe862ad9abfe6f22bcb087716c7d89a26051f74c",
             to: "0x9bbfed6889322e016e0a02ee459d306fc19545d8",
-            origin: "0xbe862ad9abfe6f22bcb087716c7d89a26051f74c",
-            caller: "0xbe862ad9abfe6f22bcb087716c7d89a26051f74c",
             value: "0",
             gasPrice: "0",
-            calldata: "0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
+            gasLimit: 500_000,
+            calldata: "0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+            block: 1,
+            timestamp: 1,
+            coinbase: "0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+            prevRandao: "0x0",
+            chainId: 1,
+            baseFee: 10,
+            origin: "0xbe862ad9abfe6f22bcb087716c7d89a26051f74c",
+            caller: "0xbe862ad9abfe6f22bcb087716c7d89a26051f74c"
         ), new Storage());
         CodeExecutor::execute($context, "604260006001");
 

@@ -69,6 +69,19 @@ class Mapping
             "3A" => GasPrice::class,
             "3B" => ExtCodeSize::class,
             "3C" => ExtCodeCopy::class,
+            // "3D" => ReturnDataSize::class,
+            // "3E" => ReturnDataCopy::class,
+            "3F" => ExtCodeHash::class,
+            "40" => BlockHash::class,
+            "41" => Coinbase::class,
+            "42" => Timestamp::class,
+            "43" => Number::class,
+            "44" => PrevRandao::class,
+            "45" => GasLimit::class,
+            "46" => ChainId::class,
+            "47" => SelfBalance::class,
+            "48" => BaseFee::class,
+
 
             "60" => Push1::class
         ];

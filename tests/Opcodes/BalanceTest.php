@@ -18,5 +18,4 @@ class BalanceTest extends BaseOpcodeTestCase
             [["0x9bbfed6889322e016e0a02ee459d306fc19545d8"], "0", 100],
         ];
     }
-
 }
