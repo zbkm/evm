@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Zbkm\Evm\Opcodes;
 
+use Zbkm\Evm\Gas\AccessListGasCalculator;
+use Zbkm\Evm\Gas\AccessListType;
 use Zbkm\Evm\Utils\CodeStringHelper;
 use Zbkm\Evm\Utils\Hex;
 
@@ -11,24 +13,25 @@ use Zbkm\Evm\Utils\Hex;
  */
 class ExtCodeSize extends BaseOpcode
 {
-    protected const STATIC_GAS = 0;
     protected const OPCODE = "3B";
+    protected string $address;
 
     public function execute(): void
     {
-        $address = $this->context->stack->pop();
+        $this->address = "0x{$this->context->stack->pop()->get()}";
         $this->context->stack->pushHex(
             Hex::from(
                 CodeStringHelper::getSize(
-                    $this->context->ethereum->getCode("0x{$address->get()}")
+                    $this->context->ethereum->getCode($this->address)
                 )
             )
         );
     }
 
-    public function getSpentGas(): int
+    protected function getGasCalculators(): array
     {
-        // If the accessed address is warm, the dynamic cost is 100. Otherwise the dynamic cost is 2600
-        return 100;
+        return [
+            new AccessListGasCalculator($this->context->accessList, AccessListType::Address, $this->address, 2600, 100),
+        ];
     }
 }

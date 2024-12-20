@@ -39,7 +39,7 @@ interface IOpcode
     public function setElement(string $element): void;
 
     /**
-     * Return opcode
+     * Return opcode name
      *
      * @return string
      */

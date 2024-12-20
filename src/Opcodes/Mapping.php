@@ -6,6 +6,9 @@ namespace Zbkm\Evm\Opcodes;
 use Zbkm\Evm\Exceptions\InvalidOpcode;
 use Zbkm\Evm\Interfaces\IOpcode;
 
+/**
+ * Mapping for opcodes
+ */
 class Mapping
 {
     /**
@@ -81,7 +84,6 @@ class Mapping
             "46" => ChainId::class,
             "47" => SelfBalance::class,
             "48" => BaseFee::class,
-
 
             "60" => Push1::class
         ];

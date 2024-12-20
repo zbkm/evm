@@ -3,12 +3,16 @@ declare(strict_types=1);
 
 namespace Zbkm\Evm\Opcodes;
 
+use Zbkm\Evm\Gas\ExpGasCalculator;
+use Zbkm\Evm\Gas\StaticGasCalculator;
 use Zbkm\Evm\Utils\Hex;
 use Zbkm\Evm\Utils\HexMath;
 
+/**
+ * Exponential operation
+ */
 class Exp extends BaseOpcode
 {
-    protected const STATIC_GAS = 10;
     protected const OPCODE = "0A";
     protected Hex $exponent;
 
@@ -19,10 +23,11 @@ class Exp extends BaseOpcode
         $this->context->stack->pushHex(HexMath::exp($num, $this->exponent));
     }
 
-    public function getSpentGas(): int
+    protected function getGasCalculators(): array
     {
-        // dynamic_gas = 50 * exponent_byte_size
-        $dynamicGas = 50 * count(str_split($this->exponent->get(), 2));
-        return self::STATIC_GAS + $dynamicGas;
+        return [
+            new StaticGasCalculator(10),
+            new ExpGasCalculator($this->exponent)
+        ];
     }
 }

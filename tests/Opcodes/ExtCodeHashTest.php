@@ -17,8 +17,8 @@ class ExtCodeHashTest extends BaseOpcodeTestCase
     public static function dataProvider(): array
     {
         return [
-            [["0x43a61f3f4c73ea0d444c5c1c1a8544067a86219b"], Hex::from("0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470")->get(), 100],
-            [["0xf8e81D47203A594245E36C48e151709F0C19fBe8"], Hex::from("93985dd99c235cea0f45ba23e77bcc15527d62edcf722bb7d1205b68fc12d106")->get(), 100],
+            [["0x43a61f3f4c73ea0d444c5c1c1a8544067a86219b"], Hex::from("0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470")->get(), 2600],
+            [["0xf8e81D47203A594245E36C48e151709F0C19fBe8"], Hex::from("93985dd99c235cea0f45ba23e77bcc15527d62edcf722bb7d1205b68fc12d106")->get(), 2600],
         ];
     }
 

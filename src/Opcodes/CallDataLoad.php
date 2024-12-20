@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Zbkm\Evm\Opcodes;
 
+use Zbkm\Evm\Gas\StaticGasCalculator;
 use Zbkm\Evm\Utils\CodeStringHelper;
 use Zbkm\Evm\Utils\Hex;
 
@@ -11,7 +12,6 @@ use Zbkm\Evm\Utils\Hex;
  */
 class CallDataLoad extends BaseOpcode
 {
-    protected const STATIC_GAS = 3;
     protected const OPCODE = "35";
 
     public function execute(): void
@@ -21,5 +21,10 @@ class CallDataLoad extends BaseOpcode
         $this->context->stack->pushHex(
             Hex::from(CodeStringHelper::getPart($this->context->state->calldata, $offset->getInt(), 32))
         );
+    }
+
+    protected function getGasCalculators(): array
+    {
+        return [new StaticGasCalculator(3)];
     }
 }

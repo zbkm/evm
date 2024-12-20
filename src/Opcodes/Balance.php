@@ -3,25 +3,30 @@ declare(strict_types=1);
 
 namespace Zbkm\Evm\Opcodes;
 
+
+use Zbkm\Evm\Gas\AccessListGasCalculator;
+use Zbkm\Evm\Gas\AccessListType;
+
 /**
  * Get balance of the given account
  */
 class Balance extends BaseOpcode
 {
-    protected const STATIC_GAS = 0;
     protected const OPCODE = "31";
+    protected string $value;
 
     public function execute(): void
     {
-        $address = $this->context->stack->pop();
+        $this->value = "0x{$this->context->stack->pop()}";
         $this->context->stack->pushHex(
-            $this->context->ethereum->getBalance("0x{$address->get()}")
+            $this->context->ethereum->getBalance($this->value)
         );
     }
 
-    public function getSpentGas(): int
+    protected function getGasCalculators(): array
     {
-        // If the accessed address is warm, the dynamic cost is 100. Otherwise the dynamic cost is 2600
-        return 100;
+        return [
+            new AccessListGasCalculator($this->context->accessList, AccessListType::Address, $this->value, 2600, 100)
+        ];
     }
 }

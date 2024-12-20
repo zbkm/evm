@@ -13,33 +13,33 @@ class MemoryGasHelperTest extends TestCase
     public static function memoryCostProvider(): array
     {
         return [
-            [3, Hex::from("0")],
-            [6, Hex::from("20")],
-            [6809, Hex::from("9C40")]
+            [3, 0],
+            [6, 32],
+            [6809, 40000]
         ];
     }
 
     #[DataProvider("memoryCostProvider")]
-    public function testGetMemoryCost(int $result, Hex $size): void
+    public function testGetMemoryCost(int $result, int $size): void
     {
-        $this->assertSame($result, MemoryGasHelper::getMemoryCost($size));
+        $this->assertSame($result, MemoryGasHelper::getMemoryCost(Hex::from($size)));
     }
 
     public static function expansionProvider(): array
     {
         return [
 //            [3, Hex::from("0"), Hex::from("0")],
-            [6, Hex::from("20"), Hex::from("0")],
-            [6, Hex::from("40"), Hex::from("20")],
-            [9, Hex::from("40"), Hex::from("0")],
-            [0, Hex::from("0"), Hex::from("20")],
-            [6806, Hex::from("9C40"), Hex::from("20")],
+            [6, 32, 0],
+            [6, 64, 32],
+            [9, 64, 0],
+            [0, 0, 32],
+            [6806, 40000, 32],
         ];
     }
 
     #[DataProvider("expansionProvider")]
-    public function testGetExpansionPrice(int $result, Hex $newSize, Hex $currentSize): void
+    public function testGetExpansionPrice(int $result, int $newSize, int $currentSize): void
     {
-        $this->assertSame($result, MemoryGasHelper::getExpansionPrice($newSize, $currentSize));
+        $this->assertSame($result, MemoryGasHelper::getExpansionPrice(Hex::from($newSize), Hex::from($currentSize)));
     }
 }

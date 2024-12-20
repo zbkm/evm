@@ -3,9 +3,11 @@ declare(strict_types=1);
 
 namespace Zbkm\Evm\Opcodes;
 
+/**
+ * Halts execution
+ */
 class Stop extends BaseOpcode
 {
-    protected const STATIC_GAS = 0;
     protected const OPCODE = "00";
 
     public function execute(): void
@@ -15,5 +17,10 @@ class Stop extends BaseOpcode
     public function isStop(): bool
     {
         return true;
+    }
+
+    protected function getGasCalculators(): array
+    {
+        return [];
     }
 }

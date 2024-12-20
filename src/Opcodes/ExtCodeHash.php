@@ -4,28 +4,31 @@ declare(strict_types=1);
 namespace Zbkm\Evm\Opcodes;
 
 use kornrunner\Keccak;
+use Zbkm\Evm\Gas\AccessListGasCalculator;
+use Zbkm\Evm\Gas\AccessListType;
 
 /**
  * Get hash of an account’s code
  */
 class ExtCodeHash extends BaseOpcode
 {
-    protected const STATIC_GAS = 0;
     protected const OPCODE = "3F";
     protected int $size;
+    protected string $address;
 
     public function execute(): void
     {
-        $address = $this->context->stack->pop();
-        $code = $this->context->ethereum->getCode($address->getHex());
+        $this->address = "0x{$this->context->stack->pop()->get()}";
+        $code = $this->context->ethereum->getCode($this->address);
 
         $hash = $code !== null ? Keccak::hash(hex2bin($code), 256) : "0";
         $this->context->stack->push($hash);
     }
 
-    public function getSpentGas(): int
+    protected function getGasCalculators(): array
     {
-        $dynamicGas = 100;
-        return self::STATIC_GAS + $dynamicGas;
+        return [
+            new AccessListGasCalculator($this->context->accessList, AccessListType::Address, $this->address, 2600, 100),
+        ];
     }
 }

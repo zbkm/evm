@@ -10,6 +10,7 @@ class CodeExecutor
 {
     public static function execute(Context $context, string $code): void
     {
+        $context->code = $code;
         $reader = new CodeReader($code);
 
         while ($reader->valid()) {

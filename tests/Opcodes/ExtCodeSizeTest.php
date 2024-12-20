@@ -15,7 +15,7 @@ class ExtCodeSizeTest extends BaseOpcodeTestCase
     public static function dataProvider(): array
     {
         return [
-            [["0x43a61f3f4c73ea0d444c5c1c1a8544067a86219b"], "0", 100],
+            [["0x43a61f3f4c73ea0d444c5c1c1a8544067a86219b"], "0", 2600],
         ];
     }
 }

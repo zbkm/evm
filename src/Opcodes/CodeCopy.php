@@ -3,7 +3,8 @@ declare(strict_types=1);
 
 namespace Zbkm\Evm\Opcodes;
 
-use Zbkm\Evm\Gas\MemoryGasHelper;
+use Zbkm\Evm\Gas\MemoryExtendGasCalculator;
+use Zbkm\Evm\Gas\StaticGasCalculator;
 use Zbkm\Evm\Utils\CodeStringHelper;
 use Zbkm\Evm\Utils\Hex;
 
@@ -12,30 +13,27 @@ use Zbkm\Evm\Utils\Hex;
  */
 class CodeCopy extends BaseOpcode
 {
-    protected const STATIC_GAS = 3;
     protected const OPCODE = "39";
-    protected Hex $size;
+    protected int $size;
 
     public function execute(): void
     {
         $destOffset = $this->context->stack->pop();
         $offset = $this->context->stack->pop();
-        $this->size = $this->context->stack->pop();
+        $this->size = $this->context->stack->pop()->getInt();
 
-        $callDataPart = CodeStringHelper::getPart($this->context->code, $offset->getInt(), $this->size->getInt());
+        $callDataPart = CodeStringHelper::getPart($this->context->code, $offset->getInt(), $this->size);
 
         // todo test on size > 32 byte
-        $this->context->memory->set($destOffset, $this->size->getInt(), Hex::from($callDataPart));
+        $this->context->memory->set($destOffset, $this->size, Hex::from($callDataPart));
 
     }
 
-    public function getSpentGas(): int
+    protected function getGasCalculators(): array
     {
-        // minimum_word_size = (size + 31) / 32
-        // dynamic_gas = 3 * minimum_word_size + memory_expansion_cost
-        $minimumWordSize = ($this->size->getInt() + 31) / 32;
-        $memoryExpansionCost = MemoryGasHelper::getExpansionPrice($this->context->memory->size(), $this->initialMemorySize);
-        $dynamicGas = 3 * ~~$minimumWordSize + $memoryExpansionCost;
-        return self::STATIC_GAS + $dynamicGas;
+        return [
+            new StaticGasCalculator(3),
+            new MemoryExtendGasCalculator($this->initialMemorySize, $this->size, $this->context->memory->size())
+        ];
     }
 }
