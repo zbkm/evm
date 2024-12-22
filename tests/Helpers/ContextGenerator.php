@@ -5,7 +5,7 @@ namespace Helpers;
 
 use Zbkm\Evm\Context;
 use Zbkm\Evm\State;
-use Zbkm\Evm\Storage;
+use Zbkm\Evm\Storages\MemoryStorage;
 
 class ContextGenerator
 {
@@ -23,7 +23,8 @@ class ContextGenerator
             coinbase: "0x5B38Da6a701c568545dCfcB03FcB875f56beddC4",
             prevRandao: "0xce124dee50136f3f93f19667fb4198c6b94eecbacfa300469e5280012757be94",
             chainId: 1,
-            baseFee: 10
-        ), new Storage());
+            baseFee: 10,
+            blobBaseFee: 10
+        ), new MemoryStorage());
     }
 }
