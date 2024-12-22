@@ -6,6 +6,7 @@ namespace Zbkm\Evm\Opcodes;
 use Zbkm\Evm\Gas\AccessListGasCalculator;
 use Zbkm\Evm\Gas\AccessListType;
 use Zbkm\Evm\Gas\MemoryExtendGasCalculator;
+use Zbkm\Evm\Gas\MemoryWordGasCalculator;
 use Zbkm\Evm\Utils\CodeStringHelper;
 use Zbkm\Evm\Utils\Hex;
 
@@ -37,7 +38,8 @@ class ExtCodeCopy extends BaseOpcode
     {
         return [
             new AccessListGasCalculator($this->context->accessList, AccessListType::Address, $this->address, 2600, 100),
-            new MemoryExtendGasCalculator($this->initialMemorySize, $this->size, $this->context->memory->size())
+            new MemoryWordGasCalculator($this->size),
+            new MemoryExtendGasCalculator($this->initialMemorySize, $this->context->memory->size())
         ];
     }
 }

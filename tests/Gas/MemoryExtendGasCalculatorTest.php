@@ -12,20 +12,18 @@ class MemoryExtendGasCalculatorTest extends TestCase
 {
     public static function dataProvider(): array
     {
-        // TODO crash on commented tests
         return [
-//            [Hex::from(0), 0, Hex::from(0), 0],
-            [Hex::from(32), 0, Hex::from(0), 0],
-//            [Hex::from(32), 0, Hex::from(64), 9],
-            [Hex::from(32), 32, Hex::from(0), 3],
-            [Hex::from(32), 32, Hex::from(32), 6],
+            [Hex::from(0), Hex::from(0), 3],
+            [Hex::from(32), Hex::from(32), 0],
+            [Hex::from(32), Hex::from(64), 3],
+            [Hex::from(32), Hex::from(32), 0],
         ];
     }
 
     #[DataProvider("dataProvider")]
-    public function testCalculateGas(Hex $initialMemorySize, int $byteSizeToCopy, Hex $memorySize, int $result): void
+    public function testCalculateGas(Hex $initialMemorySize, Hex $memorySize, int $result): void
     {
-        $calculator = new MemoryExtendGasCalculator($initialMemorySize, $byteSizeToCopy, $memorySize);
+        $calculator = new MemoryExtendGasCalculator($initialMemorySize, $memorySize);
         $this->assertEquals($result, $calculator->calculateGas());
     }
 }

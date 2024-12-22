@@ -4,12 +4,11 @@ declare(strict_types=1);
 namespace Zbkm\Evm\Gas;
 
 use Zbkm\Evm\AccessList;
-use Zbkm\Evm\Interfaces\IGasCalculator;
 
 /**
  * Gas calculation according to the presence of the value in the AccessList
  */
-class AccessListGasCalculator implements IGasCalculator
+class AccessListGasCalculator extends BaseGasCalculator
 {
     /**
      * @param AccessList     $al AccessList Instance

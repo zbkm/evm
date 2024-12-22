@@ -11,4 +11,5 @@ interface IGasCalculator
      * @return int spent gas
      */
     public function calculateGas(): int;
+    public function calculateRefundGas(): int;
 }

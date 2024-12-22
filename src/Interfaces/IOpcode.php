@@ -31,6 +31,13 @@ interface IOpcode
     public function getSpentGas(): int;
 
     /**
+     * Return gas refunds count
+     *
+     * @return int
+     */
+    public function getRefundGas(): int;
+
+    /**
      * Set additional element (if allowed)
      *
      * @param string $element element value
@@ -51,4 +58,11 @@ interface IOpcode
      * @return bool
      */
     public function isStop(): bool;
+
+    /**
+     * Is instruction revert transaction
+     *
+     * @return bool
+     */
+    public function isRevert(): bool;
 }

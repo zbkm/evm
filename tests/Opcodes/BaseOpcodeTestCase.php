@@ -23,7 +23,7 @@ abstract class BaseOpcodeTestCase extends TestCase
     protected Context $context;
 
     /**
-     * @return array [string[] <- stack,  string <- result, int <- gas (for dynamic)]
+     * @return array [string[] <- stack,  string <- result value in stack, int <- gas (for dynamic)]
      */
     abstract public static function dataProvider(): array;
 
@@ -39,7 +39,7 @@ abstract class BaseOpcodeTestCase extends TestCase
     }
 
     #[DataProvider("dataProvider")]
-    public function test(array $values, string $expected, int $dynamicGas = null): void
+    public function test(array $values, string $expected, int $dynamicGas = null, int $refundGas = 0): void
     {
         foreach (array_reverse($values) as $value) {
             $this->context->stack->push($value);
@@ -51,6 +51,7 @@ abstract class BaseOpcodeTestCase extends TestCase
 
         if ($this->isDynamicGas) {
             $this->assertEquals($dynamicGas, $opcode->getSpentGas());
+            $this->assertEquals($refundGas, $opcode->getRefundGas());
         }
     }
 

@@ -3,11 +3,10 @@ declare(strict_types=1);
 
 namespace Opcodes;
 
-use PHPUnit\Framework\Attributes\DataProvider;
 use Zbkm\Evm\Context;
 use Zbkm\Evm\Opcodes\CallDataCopy;
 
-class CallDataCopyTest extends BaseOpcodeTestCase
+class CallDataCopyTest extends BaseMemoryBasedOpcodeTestCase
 {
     protected string $testedClass = CallDataCopy::class;
     protected string $opcode = "37";
@@ -21,22 +20,6 @@ class CallDataCopyTest extends BaseOpcodeTestCase
         return [
             [["0", "0", "0x20"], "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", 12],
         ];
-    }
-
-    #[DataProvider("dataProvider")]
-    public function test(array $values, string $expected, int $dynamicGas = null): void
-    {
-        foreach (array_reverse($values) as $value) {
-            $this->context->stack->push($value);
-        }
-
-        $opcode = new $this->testedClass($this->context);
-        $opcode->execute();
-        $this->assertEquals(strtolower($expected), $this->context->memory->data());
-
-        if ($this->isDynamicGas) {
-            $this->assertEquals($dynamicGas, $opcode->getSpentGas());
-        }
     }
 
     public function getContext(): Context

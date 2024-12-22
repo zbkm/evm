@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Zbkm\Evm\Opcodes;
 
+use Exception;
 use InvalidArgumentException;
 use Zbkm\Evm\Context;
 use Zbkm\Evm\Interfaces\IGasCalculator;
@@ -23,6 +24,11 @@ abstract class BaseOpcode implements IOpcode
      * @var Hex The size of the memory occupied before the execution of the opcode
      */
     protected Hex $initialMemorySize;
+
+    /**
+     * @var Exception Exception if opcode revert
+     */
+    protected Exception $revertException;
 
     /**
      * @param Context $context
@@ -64,10 +70,25 @@ abstract class BaseOpcode implements IOpcode
         }, 0);
     }
 
+    public function getRefundGas(): int
+    {
+        return array_reduce($this->getGasCalculators(), function ($carry, $calculator) {
+            return $carry + $calculator->calculateRefundGas();
+        }, 0);
+    }
+
     /**
      * @inheritDoc
      */
     public function isStop(): bool
+    {
+        return false;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isRevert(): bool
     {
         return false;
     }

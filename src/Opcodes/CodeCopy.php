@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Zbkm\Evm\Opcodes;
 
 use Zbkm\Evm\Gas\MemoryExtendGasCalculator;
+use Zbkm\Evm\Gas\MemoryWordGasCalculator;
 use Zbkm\Evm\Gas\StaticGasCalculator;
 use Zbkm\Evm\Utils\CodeStringHelper;
 use Zbkm\Evm\Utils\Hex;
@@ -33,7 +34,8 @@ class CodeCopy extends BaseOpcode
     {
         return [
             new StaticGasCalculator(3),
-            new MemoryExtendGasCalculator($this->initialMemorySize, $this->size, $this->context->memory->size())
+            new MemoryWordGasCalculator($this->size),
+            new MemoryExtendGasCalculator($this->initialMemorySize, $this->context->memory->size())
         ];
     }
 }

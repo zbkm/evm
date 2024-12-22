@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Zbkm\Evm\Gas;
 
-use Zbkm\Evm\Interfaces\IGasCalculator;
 use Zbkm\Evm\Opcodes\Exp;
 use Zbkm\Evm\Utils\Hex;
 
@@ -11,7 +10,7 @@ use Zbkm\Evm\Utils\Hex;
  * Gas Calculator for Exp opcode
  * @see Exp
  */
-class ExpGasCalculator implements IGasCalculator
+class ExpGasCalculator extends BaseGasCalculator
 {
     /**
      * @param Hex $exponent exponent

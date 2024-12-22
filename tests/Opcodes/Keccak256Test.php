@@ -17,7 +17,7 @@ class Keccak256Test extends BaseOpcodeTestCase
     public static function dataProvider(): array
     {
         return [
-            [["0", "4"], Hex::from("0x29045A592007D0C246EF02C2223570DA9522D0CF0F73282C79A1BC8F0BB2C238")->get(), 36],
+            [["0", "4"], Hex::from("0x29045A592007D0C246EF02C2223570DA9522D0CF0F73282C79A1BC8F0BB2C238")->get(), 33],
         ];
     }
 

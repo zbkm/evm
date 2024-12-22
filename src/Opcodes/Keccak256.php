@@ -5,6 +5,7 @@ namespace Zbkm\Evm\Opcodes;
 
 use kornrunner\Keccak;
 use Zbkm\Evm\Gas\MemoryExtendGasCalculator;
+use Zbkm\Evm\Gas\MemoryWordGasCalculator;
 use Zbkm\Evm\Gas\StaticGasCalculator;
 use Zbkm\Evm\Utils\Hex;
 
@@ -29,7 +30,8 @@ class Keccak256 extends BaseOpcode
     {
         return [
             new StaticGasCalculator(30),
-            new MemoryExtendGasCalculator($this->initialMemorySize, $this->size, $this->context->memory->size())
+            new MemoryWordGasCalculator($this->size),
+            new MemoryExtendGasCalculator($this->initialMemorySize, $this->context->memory->size())
         ];
     }
 }

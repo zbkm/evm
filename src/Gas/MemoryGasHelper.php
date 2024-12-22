@@ -20,7 +20,11 @@ class MemoryGasHelper
      */
     public static function getExpansionPrice(Hex $newSize, Hex $currentSize): int
     {
-        return self::getMemoryCost($newSize) - self::getMemoryCost($currentSize) + 3;
+        if (HexMath::eq($currentSize, Hex::from(0))) {
+            return self::getMemoryCost($newSize);
+        }
+
+        return self::getMemoryCost($newSize) - self::getMemoryCost($currentSize);
     }
 
     /**
@@ -31,7 +35,7 @@ class MemoryGasHelper
      */
     public static function getMemoryCost(Hex $size): int
     {
-        $size = HexMath::sum($size, Hex::from(1)); // I still don't understand why it is necessary to add 1 byte, but because of this the gas amount is less
+        $size = HexMath::sum($size, Hex::from(1));
         $memorySizeWord = HexMath::sdiv(HexMath::sum($size, Hex::from("1f" /* 31 dec */)), Hex::from("20"));
         return HexMath::sum(
             HexMath::sdiv(HexMath::exp($memorySizeWord, Hex::from("2")), Hex::from("200" /* 512 dec */)),

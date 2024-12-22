@@ -13,14 +13,14 @@ class MemoryGasHelperTest extends TestCase
     public static function memoryCostProvider(): array
     {
         return [
-            [3, 0],
-            [6, 32],
-            [6809, 40000]
+            [0, 3],
+            [32, 6],
+            [64, 9]
         ];
     }
 
     #[DataProvider("memoryCostProvider")]
-    public function testGetMemoryCost(int $result, int $size): void
+    public function testGetMemoryCost(int $size, int $result): void
     {
         $this->assertSame($result, MemoryGasHelper::getMemoryCost(Hex::from($size)));
     }
@@ -28,12 +28,10 @@ class MemoryGasHelperTest extends TestCase
     public static function expansionProvider(): array
     {
         return [
-//            [3, Hex::from("0"), Hex::from("0")],
             [6, 32, 0],
-            [6, 64, 32],
+            [3, 64, 32],
             [9, 64, 0],
-            [0, 0, 32],
-            [6806, 40000, 32],
+            [0, 32, 32]
         ];
     }
 
