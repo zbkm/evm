@@ -33,4 +33,12 @@ interface IEthereum
      * @return string block hash
      */
     public function getBlockHash(int $blockNumber): string;
+
+    /**
+     * Get blob hash for index
+     *
+     * @param int $index index
+     * @return string|null blob hash or null if index > length
+     */
+    public function getBlobHash(int $index): string|null;
 }

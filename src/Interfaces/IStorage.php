@@ -48,4 +48,11 @@ interface IStorage
      * @return void
      */
     public function flushTemp(): void;
+
+    /**
+     * Return all storage
+     *
+     * @return array<string, Hex>
+     */
+    public function all(): array;
 }

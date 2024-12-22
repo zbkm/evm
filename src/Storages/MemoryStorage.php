@@ -70,4 +70,13 @@ class MemoryStorage implements IStorage
     {
         $this->temp = [];
     }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function all(): array
+    {
+        return array_merge($this->data, $this->temp);
+    }
 }

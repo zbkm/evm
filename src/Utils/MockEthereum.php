@@ -21,6 +21,10 @@ class MockEthereum implements IEthereum
      * @var array<string, Hex>
      */
     protected array $balances;
+    /**
+     * @var array<int, string>
+     */
+    protected array $blobHashes;
 
     public const DEFAULT_BLOCK_HASH = "0x29045A592007D0C246EF02C2223570DA9522D0CF0F73282C79A1BC8F0BB2C238";
 
@@ -28,9 +32,9 @@ class MockEthereum implements IEthereum
     {
         if (!isset($this->balances[$address])) {
             return Hex::from(0);
-        } else {
-            return $this->balances[$address];
         }
+
+        return $this->balances[$address];
     }
 
     public function setBalance(string $address, Hex $wei): void
@@ -42,9 +46,9 @@ class MockEthereum implements IEthereum
     {
         if (!isset($this->codes[$address])) {
             return "";
-        } else {
-            return $this->codes[$address];
         }
+
+        return $this->codes[$address];
     }
 
     public function setCode(string $address, string|null $code): void
@@ -56,13 +60,27 @@ class MockEthereum implements IEthereum
     {
         if (!isset($this->blockHashes[$blockNumber])) {
             return self::DEFAULT_BLOCK_HASH; // default value
-        } else {
-            return $this->blockHashes[$blockNumber];
         }
+
+        return $this->blockHashes[$blockNumber];
     }
 
     public function setBlockHash(int $blockNumber, string $hash): void
     {
         $this->blockHashes[$blockNumber] = $hash;
+    }
+
+    public function setBlobHash(int $index, string $hash): void
+    {
+        $this->blobHashes[$index] = $hash;
+    }
+
+    public function getBlobHash(int $index): string|null
+    {
+        if (!isset($this->blobHashes[$index])) {
+            return null;
+        }
+
+        return $this->blobHashes[$index];
     }
 }

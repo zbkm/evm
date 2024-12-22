@@ -84,6 +84,14 @@ class Mapping
             "46" => ChainId::class,
             "47" => SelfBalance::class,
             "48" => BaseFee::class,
+            "49" => BlobHash::class,
+            "4A" => BlobBaseFee::class,
+            "50" => Pop::class,
+            "51" => MLoad::class,
+            "52" => MStore::class,
+            "53" => MStore8::class,
+            "54" => SLoad::class,
+            "55" => SStore::class,
 
             "60" => Push1::class
         ];
