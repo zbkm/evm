@@ -51,5 +51,9 @@ class State
         if ($this->caller === "") {
             $this->caller = $this->from;
         }
+
+        if ($this->gasLeft === 0) {
+            $this->gasLeft = $this->gasLimit;
+        }
     }
 }
