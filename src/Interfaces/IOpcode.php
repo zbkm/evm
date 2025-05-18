@@ -65,4 +65,18 @@ interface IOpcode
      * @return bool
      */
     public function isRevert(): bool;
+
+    /**
+     * Is instruction jump
+     *
+     * @return bool
+     */
+    public function isJump(): bool;
+
+    /**
+     * Return position for jump
+     *
+     * @return int position jump. -1 for not jump instruction
+     */
+    public function jumpTo(): int;
 }

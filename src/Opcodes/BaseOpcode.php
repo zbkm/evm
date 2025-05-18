@@ -96,6 +96,22 @@ abstract class BaseOpcode implements IOpcode
     /**
      * @inheritDoc
      */
+    public function isJump(): bool
+    {
+        return false;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function jumpTo(): int
+    {
+        return -1;
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getBytesSkip(): int
     {
         return 0;

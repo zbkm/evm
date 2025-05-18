@@ -92,6 +92,12 @@ class Mapping
             "53" => MStore8::class,
             "54" => SLoad::class,
             "55" => SStore::class,
+            "56" => Jump::class,
+            "57" => JumpI::class,
+            // "58" => PC::class,
+            // "59" => MSize::class,
+            // "5A" => Gas::class,
+            "5B" => JumpDest::class,
 
             "60" => Push1::class
         ];
